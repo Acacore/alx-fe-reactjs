@@ -5,11 +5,11 @@ function Footer(){
     
     
     return(
-        <div className="">
+       
             <footer>
                 <p>© 2023 City Lovers</p>
             </footer>
-        </div>
+        
     )
 
 }
