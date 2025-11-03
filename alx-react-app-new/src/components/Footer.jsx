@@ -6,7 +6,7 @@ function Footer(){
     
     return(
        
-            <footer>
+            <footer style={{fontSize: '30px'}}>
                 <p>© 2023 City Lovers</p>
             </footer>
         
