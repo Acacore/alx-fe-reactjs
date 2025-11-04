@@ -5,7 +5,7 @@ import MainContent from './MainContent'
 import Footer from './Footer'
 import UserProfile from './components/UserProfile.jsx'
 import './App.css'
-
+import Count from './components/Count.jsx'
 
 
 
@@ -18,6 +18,7 @@ function App() {
       <MainContent />
       <WelcomeMessage />
       <UserProfile  name="Alice" age="25" bio="Loves hiking and photography" />
+      <Count/>
       <Footer />
     </>
   )
