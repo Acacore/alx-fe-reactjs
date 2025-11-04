@@ -5,7 +5,7 @@ import MainContent from './MainContent'
 import Footer from './Footer'
 import UserProfile from './components/UserProfile.jsx'
 import './App.css'
-import Count from './components/Count.jsx'
+import Count from './components/Counter.jsx'
 
 
 
