@@ -5,7 +5,12 @@ import './Navbar.css'; // Optional: for styling the navbar
 
 const Navbar = () => {
   return (
-    <nav className="navbar">
+    <nav className="navbar"   style={{
+        backgroundColor: "lightblue",
+        display: "flex",
+        justifyContent: "space-between",
+        padding: "10px"
+      }}>
       <ul className="navbar-nav">
         <li className="nav-item">
           <Link to="/" className="nav-link">Home</Link>
