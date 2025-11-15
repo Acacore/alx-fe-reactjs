@@ -2,7 +2,9 @@
 import { create } from 'zustand';
 import { nanoid } from 'nanoid';
 
-export const useRecipeStore = create((set, get) => ({
+
+
+export const useRecipeStore = create((setRecipes, getRecipes) => ({
   recipes: [],
   searchTerm: '',
   filteredRecipes: [],
@@ -11,27 +13,27 @@ export const useRecipeStore = create((set, get) => ({
 
   // === RECIPES ===
   addRecipe: (recipe) =>
-    set((state) => ({
+    setRecipes((state) => ({
       recipes: [...state.recipes, { id: nanoid(), ...recipe }],
     })),
 
   updateRecipe: (updated) =>
-    set((state) => ({
+    setRecipes((state) => ({
       recipes: state.recipes.map((r) =>
         r.id === updated.id ? { ...r, ...updated } : r
       ),
     })),
 
   deleteRecipe: (id) =>
-    set((state) => ({
+    setRecipes((state) => ({
       recipes: state.recipes.filter((r) => r.id !== id),
     })),
 
   // === SEARCH ===
-  setSearchTerm: (term) => set({ searchTerm: term }),
+  setRecipesSearchTerm: (term) => setRecipes({ searchTerm: term }),
 
   filterRecipes: () => {
-    const { recipes, searchTerm } = get();
+    const { recipes, searchTerm } = getRecipes();
     const term = searchTerm.toLowerCase().trim();
 
     const filtered = recipes.filter((recipe) => {
@@ -41,25 +43,25 @@ export const useRecipeStore = create((set, get) => ({
       return title.includes(term) || desc.includes(term) || ingredients.includes(term);
     });
 
-    set({ filteredRecipes: filtered });
+    setRecipes({ filteredRecipes: filtered });
   },
 
   // === FAVORITES ===
   addFavorite: (recipeId) =>
-    set((state) => ({
-      favorites: [...new Set([...state.favorites, recipeId])], // Prevent duplicates
+    setRecipes((state) => ({
+      favorites: [...new setRecipes([...state.favorites, recipeId])], // Prevent duplicates
     })),
 
   removeFavorite: (recipeId) =>
-    set((state) => ({
+    setRecipes((state) => ({
       favorites: state.favorites.filter((id) => id !== recipeId),
     })),
 
   // === RECOMMENDATIONS ===
   generateRecommendations: () => {
-    const { recipes, favorites } = get();
+    const { recipes, favorites } = getRecipes();
     if (favorites.length === 0) {
-      set({ recommendations: [] });
+      setRecipes({ recommendations: [] });
       return;
     }
 
@@ -83,6 +85,6 @@ export const useRecipeStore = create((set, get) => ({
       })
       .slice(0, 3); // Top 3
 
-    set({ recommendations });
+    setRecipes({ recommendations });
   },
 }));
