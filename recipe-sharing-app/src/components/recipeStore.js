@@ -1,72 +1,88 @@
+// src/recipeStore.js
 import { create } from 'zustand';
 import { nanoid } from 'nanoid';
 
-/**
- * Global recipe store using Zustand.
- * Manages the list of recipes and provides actions to add, update, delete, and set recipes.
- */
 export const useRecipeStore = create((set, get) => ({
-  // State: Array of recipe objects
   recipes: [],
   searchTerm: '',
-  setSearchTerm: (term) => set({ searchTerm: term }),
   filteredRecipes: [],
- // Filter recipes (called after searchTerm changes)
- 
+  favorites: [],
+  recommendations: [],
 
-  // Action: Replace the entire recipes array (e.g., for loading from storage or API)
-  setRecipes: (newRecipesArray) =>
-    set({ recipes: newRecipesArray }),
-
-  // Action: Add a new recipe. Generates a unique ID if not provided.
-  addRecipe: (newRecipeData) =>
+  // === RECIPES ===
+  addRecipe: (recipe) =>
     set((state) => ({
-      recipes: [
-        ...state.recipes,
-        {
-          // Use provided ID or generate a new one using nanoid
-          id: newRecipeData.id ?? nanoid(),
-          // Spread all other recipe fields (title, description, etc.)
-          ...newRecipeData,
-        },
-      ],
+      recipes: [...state.recipes, { id: nanoid(), ...recipe }],
     })),
 
-  // Action: Update an existing recipe by ID. Supports partial updates.
-  updateRecipe: (updatedRecipeData) =>
+  updateRecipe: (updated) =>
     set((state) => ({
-      recipes: state.recipes.map((existingRecipe) =>
-        // If this is the recipe we want to update
-        existingRecipe.id === updatedRecipeData.id
-          ? { ...existingRecipe, ...updatedRecipeData } // Merge old + new data
-          : existingRecipe // Otherwise, keep it unchanged
+      recipes: state.recipes.map((r) =>
+        r.id === updated.id ? { ...r, ...updated } : r
       ),
     })),
 
-  // Action: Delete a recipe by its ID
-  deleteRecipe: (recipeIdToDelete) =>
+  deleteRecipe: (id) =>
     set((state) => ({
-      recipes: state.recipes.filter(
-        (existingRecipe) => existingRecipe.id !== recipeIdToDelete
-      ),
+      recipes: state.recipes.filter((r) => r.id !== id),
     })),
 
-   filterRecipes: () => {
+  // === SEARCH ===
+  setSearchTerm: (term) => set({ searchTerm: term }),
+
+  filterRecipes: () => {
     const { recipes, searchTerm } = get();
     const term = searchTerm.toLowerCase().trim();
+
     const filtered = recipes.filter((recipe) => {
-      const title = recipe.title?.toLowerCase() || '';
-      const desc = recipe.description?.toLowerCase() || '';
-      const ingredients = (recipe.ingredients || [])
-        .join(' ')
-        .toLowerCase();
+      const title = (recipe.title || '').toLowerCase();
+      const desc = (recipe.description || '').toLowerCase();
+      const ingredients = (recipe.ingredients || []).join(' ').toLowerCase();
       return title.includes(term) || desc.includes(term) || ingredients.includes(term);
     });
-    set({ filteredRecipes: filtered }, false, 'filterRecipes');
 
-
-    
+    set({ filteredRecipes: filtered });
   },
 
+  // === FAVORITES ===
+  addFavorite: (recipeId) =>
+    set((state) => ({
+      favorites: [...new Set([...state.favorites, recipeId])], // Prevent duplicates
+    })),
 
+  removeFavorite: (recipeId) =>
+    set((state) => ({
+      favorites: state.favorites.filter((id) => id !== recipeId),
+    })),
+
+  // === RECOMMENDATIONS ===
+  generateRecommendations: () => {
+    const { recipes, favorites } = get();
+    if (favorites.length === 0) {
+      set({ recommendations: [] });
+      return;
+    }
+
+    // Recommend recipes with matching ingredients from favorites
+    const favoriteRecipes = favorites.map((id) =>
+      recipes.find((r) => r.id === id)
+    ).filter(Boolean);
+
+    const commonIngredients = favoriteRecipes
+      .flatMap((r) => r.ingredients || [])
+      .reduce((acc, ing) => {
+        acc[ing] = (acc[ing] || 0) + 1;
+        return acc;
+      }, {});
+
+    const recommendations = recipes
+      .filter((recipe) => !favorites.includes(recipe.id))
+      .filter((recipe) => {
+        const recipeIngs = recipe.ingredients || [];
+        return recipeIngs.some((ing) => commonIngredients[ing] > 0);
+      })
+      .slice(0, 3); // Top 3
+
+    set({ recommendations });
+  },
 }));

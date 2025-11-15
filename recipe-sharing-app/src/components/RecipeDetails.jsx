@@ -4,6 +4,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useRecipeStore } from "./recipeStore";
 import EditRecipeForm from "./EditRecipeForm";
 import DeleteRecipeButton from "./DeleteRecipeButton";
+import FavoriteButton from './FavouriteButton'
+
 
 const RecipeDetails = () => {
   const { id } = useParams();
@@ -95,6 +97,7 @@ const RecipeDetails = () => {
       </section>
 
       <hr style={{ border: "1px solid #eee", margin: "2rem 0" }} />
+      <FavoriteButton recipeId={recipe.id} />
 
       {/* Delete Button */}
       <section style={{ textAlign: "right" }}>
@@ -108,3 +111,4 @@ const RecipeDetails = () => {
 };
 
 export default RecipeDetails;
+

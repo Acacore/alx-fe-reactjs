@@ -3,7 +3,8 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useRecipeStore } from './recipeStore';
 import SearchBar from './SearchBar';
-
+import FavoritesList from './FavoritesList';
+import RecommendationsList from './RecomendationsList';
 const RecipeList = () => {
   // CORRECT: Use selector functions
   const filteredRecipes = useRecipeStore((state) => state.filteredRecipes);
@@ -17,6 +18,8 @@ const RecipeList = () => {
     <div>
       <h2>All Recipes</h2>
       <SearchBar />
+      <FavoritesList />
+      <RecommendationsList />
 
       {filteredRecipes.length === 0 ? (
         <p>No recipes found.</p>
