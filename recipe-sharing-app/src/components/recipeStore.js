@@ -8,6 +8,11 @@ import { nanoid } from 'nanoid';
 export const useRecipeStore = create((set) => ({
   // State: Array of recipe objects
   recipes: [],
+  searchTerm: '',
+  setSearchTerm: (term) => set({ searchTerm: term }),
+  filteredRecipes: [],
+ // Filter recipes (called after searchTerm changes)
+ 
 
   // Action: Replace the entire recipes array (e.g., for loading from storage or API)
   setRecipes: (newRecipesArray) =>
@@ -45,4 +50,20 @@ export const useRecipeStore = create((set) => ({
         (existingRecipe) => existingRecipe.id !== recipeIdToDelete
       ),
     })),
+
+   filterRecipes: () => {
+    const { recipes, searchTerm } = get();
+    const term = searchTerm.toLowerCase().trim();
+    const filtered = recipes.filter((recipe) => {
+      const title = recipe.title?.toLowerCase() || '';
+      const desc = recipe.description?.toLowerCase() || '';
+      const ingredients = (recipe.ingredients || [])
+        .join(' ')
+        .toLowerCase();
+      return title.includes(term) || desc.includes(term) || ingredients.includes(term);
+    });
+    set({ filteredRecipes: filtered }, false, 'filterRecipes');
+  },
+
+  
 }));

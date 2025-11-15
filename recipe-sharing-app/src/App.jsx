@@ -1,5 +1,5 @@
 // src/App.jsx
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
 import AddRecipeForm from "./components/AddRecipeForm";
 import RecipeList from "./components/RecipeList";
 import RecipeDetails from "./components/RecipeDetails";
@@ -18,12 +18,26 @@ function App() {
             marginBottom: "1rem",
           }}
         >
-          <Link to="/" style={navLinkStyle}>
+          <NavLink
+            to="/"
+            style={({ isActive }) => ({
+              ...navLinkStyle,
+              color: isActive ? "#0056b3" : "#007bff",
+              fontWeight: isActive ? "bold" : "500",
+            })}
+          >
             All Recipes
-          </Link>
-          <Link to="/add" style={navLinkStyle}>
+          </NavLink>
+          <NavLink
+            to="/add"
+            style={({ isActive }) => ({
+              ...navLinkStyle,
+              color: isActive ? "#0056b3" : "#007bff",
+              fontWeight: isActive ? "bold" : "500",
+            })}
+          >
             Add New Recipe
-          </Link>
+          </NavLink>
         </nav>
 
         {/* Page Title */}
@@ -46,16 +60,10 @@ function App() {
   );
 }
 
-// Reusable nav link style
+// Base style for nav links
 const navLinkStyle = {
   textDecoration: "none",
-  color: "#007bff",
-  fontWeight: "500",
   padding: "0.5rem 0",
-};
-
-navLinkStyle[":hover"] = {
-  textDecoration: "underline",
 };
 
 export default App;
