@@ -10,8 +10,8 @@ const EditRecipeForm = ({ initialRecipe = {}, onSuccess }) => {
   const [ingredients, setIngredients] = useState((initialRecipe.ingredients || []).join(", "));
   const [instructions, setInstructions] = useState(initialRecipe.instructions || "");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
     const updated = {
       id: initialRecipe.id,
       title,
