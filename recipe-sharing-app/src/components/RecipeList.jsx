@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useRecipeStore } from './recipeStore';
 import SearchBar from './SearchBar';
 import FavoritesList from './FavoritesList';
-import RecommendationsList from './RecomendationsList';
+import RecommendationsList from './RecommendationsList';
 const RecipeList = () => {
   // CORRECT: Use selector functions
   const filteredRecipes = useRecipeStore((state) => state.filteredRecipes);
