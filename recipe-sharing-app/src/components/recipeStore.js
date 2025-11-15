@@ -5,7 +5,7 @@ import { nanoid } from 'nanoid';
  * Global recipe store using Zustand.
  * Manages the list of recipes and provides actions to add, update, delete, and set recipes.
  */
-export const useRecipeStore = create((set) => ({
+export const useRecipeStore = create((set, get) => ({
   // State: Array of recipe objects
   recipes: [],
   searchTerm: '',
@@ -63,7 +63,10 @@ export const useRecipeStore = create((set) => ({
       return title.includes(term) || desc.includes(term) || ingredients.includes(term);
     });
     set({ filteredRecipes: filtered }, false, 'filterRecipes');
+
+
+    
   },
 
-  
+
 }));
