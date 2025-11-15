@@ -1,20 +1,14 @@
 // src/components/EditRecipeForm.jsx
 import React, { useState } from "react";
-import  useRecipeStore  from "./recipeStore";
+import { useRecipeStore } from "./recipeStore";
 
 const EditRecipeForm = ({ initialRecipe = {}, onSuccess }) => {
   const updateRecipe = useRecipeStore((s) => s.updateRecipe);
 
   const [title, setTitle] = useState(initialRecipe.title || "");
-  const [description, setDescription] = useState(
-    initialRecipe.description || ""
-  );
-  const [ingredients, setIngredients] = useState(
-    (initialRecipe.ingredients || []).join(", ")
-  );
-  const [instructions, setInstructions] = useState(
-    initialRecipe.instructions || ""
-  );
+  const [description, setDescription] = useState(initialRecipe.description || "");
+  const [ingredients, setIngredients] = useState((initialRecipe.ingredients || []).join(", "));
+  const [instructions, setInstructions] = useState(initialRecipe.instructions || "");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,7 +25,6 @@ const EditRecipeForm = ({ initialRecipe = {}, onSuccess }) => {
 
     updateRecipe(updated);
     if (onSuccess) onSuccess(updated);
-    // optionally show a toast or redirect — caller handles that
   };
 
   return (
@@ -43,26 +36,17 @@ const EditRecipeForm = ({ initialRecipe = {}, onSuccess }) => {
 
       <div>
         <label>Description</label>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
+        <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
       </div>
 
       <div>
         <label>Ingredients (comma separated)</label>
-        <input
-          value={ingredients}
-          onChange={(e) => setIngredients(e.target.value)}
-        />
+        <input value={ingredients} onChange={(e) => setIngredients(e.target.value)} />
       </div>
 
       <div>
         <label>Instructions</label>
-        <textarea
-          value={instructions}
-          onChange={(e) => setInstructions(e.target.value)}
-        />
+        <textarea value={instructions} onChange={(e) => setInstructions(e.target.value)} />
       </div>
 
       <button type="submit">Save changes</button>
