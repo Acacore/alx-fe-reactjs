@@ -30,7 +30,7 @@ export const useRecipeStore = create((setRecipes, getRecipes) => ({
     })),
 
   // === SEARCH ===
-  setRecipesSearchTerm: (term) => setRecipes({ searchTerm: term }),
+  setSearchTerm: (term) => setRecipes({ searchTerm: term }),
 
   filterRecipes: () => {
     const { recipes, searchTerm } = getRecipes();
