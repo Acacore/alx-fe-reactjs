@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../index.css"
 import { fetchUserData } from "../services/githubService";
 
+
 function Search() {
   const [username, setUsername] = useState(""); // input value
   const [user, setUser] = useState(null);       // API response
@@ -11,7 +12,7 @@ function Search() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
+    setError("Looks like we cant find the user")
     setUser(null);
 
     try {
