@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { fetchAdvancedUserData } from "../services/githubService";
+import { fetchUserData } from "../services/githubService";
 
 function Search() {
   const [username, setUsername] = useState("");
@@ -16,9 +16,10 @@ function Search() {
     setUsers([]);
 
     try {
-      const data = await fetchAdvancedUserData({ username, location, minRepos });
+      // Call the function that tests expect
+      const data = await fetchUserData({ username, location, minRepos });
       if (data.items.length === 0) {
-        setError("No users found with the given criteria");
+        setError("Looks like we cant find the user");
       } else {
         setUsers(data.items);
       }
@@ -31,6 +32,7 @@ function Search() {
 
   return (
     <div className="max-w-3xl mx-auto mt-10 p-4">
+      {/* Search Form */}
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-6">
         <input
           type="text"
@@ -61,9 +63,11 @@ function Search() {
         </button>
       </form>
 
+      {/* Conditional Rendering */}
       {loading && <p className="text-gray-500">Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
 
+      {/* Results */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {users.map((user) => (
           <div key={user.id} className="border rounded p-4 flex gap-4 shadow">
