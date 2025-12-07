@@ -6,31 +6,36 @@ function RecipeDetail() {
   const [recipe, setRecipe] = useState(null);
 
   useEffect(() => {
-    fetch("/data.json") // make sure your data.json is in /public
+    fetch("/data.json") // ensure data.json is in /public
       .then((res) => res.json())
       .then((data) => {
         const found = data.find((r) => r.id === parseInt(id));
         setRecipe(found);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error("Error loading data:", err));
   }, [id]);
 
   if (!recipe) return <p className="text-center mt-8">Loading...</p>;
 
   return (
     <div className="px-6 py-8 max-w-4xl mx-auto">
+      {/* Title */}
       <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
+
+      {/* Image */}
       <img
         src={recipe.image}
         alt={recipe.title}
         className="w-full h-64 object-cover rounded-lg mb-6"
       />
 
+      {/* Summary */}
       <section className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">Summary</h2>
         <p className="text-gray-700">{recipe.summary}</p>
       </section>
 
+      {/* Ingredients */}
       {recipe.ingredients && (
         <section className="mb-6">
           <h2 className="text-2xl font-semibold mb-2">Ingredients</h2>
@@ -42,13 +47,14 @@ function RecipeDetail() {
         </section>
       )}
 
-      {recipe.steps && (
+      {/* Instructions */}
+      {recipe.instructions && (
         <section>
-          <h2 className="text-2xl font-semibold mb-2">Cooking Steps</h2>
+          <h2 className="text-2xl font-semibold mb-2">Cooking Instructions</h2>
           <ol className="list-decimal list-inside text-gray-700">
-            {recipe.steps.map((step, index) => (
+            {recipe.instructions.map((inst, index) => (
               <li key={index} className="mb-1">
-                {step}
+                {inst}
               </li>
             ))}
           </ol>
