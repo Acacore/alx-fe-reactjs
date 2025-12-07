@@ -6,21 +6,23 @@ function AddRecipeForm() {
   const [instructions, setInstructions] = useState("");
   const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Simple validation
+  // Separate validate function
+  const validate = () => {
     const newErrors = {};
     if (!title.trim()) newErrors.title = "Title is required";
     if (!ingredients.trim() || ingredients.split("\n").length < 2)
       newErrors.ingredients = "Ingredients must include at least two items";
     if (!instructions.trim() || instructions.split("\n").length < 2)
       newErrors.instructions = "Instructions must include at least two steps";
+    return newErrors;
+  };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newErrors = validate(); // use validate function
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // Here you could handle submitting the data, e.g., POST to API
       console.log({
         title,
         ingredients: ingredients.split("\n"),
