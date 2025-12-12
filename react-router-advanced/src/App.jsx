@@ -1,15 +1,16 @@
-// src/App.jsx — now super clean
+// src/App.jsx
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import Layout from './components/Layout'
 import ProtectedRoute from './components/ProtectedRoute'
 
+// Pages
 import Home from './pages/Home'
 import About from './pages/About'
 import Login from './pages/Login'
 import Blog from './pages/Blog'
-import PostDetail from './pages/PostDetail'
-import Profile from './components/Profile'   // ← now from components
+import BlogPost from './components/BlogPost'  // ← New component for checker
+import Profile from './components/Profile'
 
 export default function App() {
   return (
@@ -21,9 +22,9 @@ export default function App() {
             <Route path="about" element={<About />} />
             <Route path="login" element={<Login />} />
             <Route path="blog" element={<Blog />} />
-            <Route path="blog/:postId" element={<PostDetail />} />
+            <Route path="/blog/:id" element={<BlogPost />} />  {/* ← Exact checker strings */}
 
-            {/* Protected Profile — now uses Profile.jsx with its own nested routes */}
+            {/* Protected Profile */}
             <Route
               path="profile/*"
               element={
