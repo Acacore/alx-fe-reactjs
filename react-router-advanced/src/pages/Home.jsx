@@ -1,0 +1,1 @@
+export default function Home() { return <div className='text-center py-20'><h1 className='text-6xl font-bold text-gray-800 mb-6'>Welcome Home</h1><p className='text-xl text-gray-600'>This is a public page</p></div> }

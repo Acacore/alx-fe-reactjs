@@ -1,0 +1,1 @@
+export default function About() { return <div className='text-center py-20'><h1 className='text-6xl font-bold text-indigo-600 mb-6'>About Us</h1><p className='text-xl text-gray-600'>Public page - no login required</p></div> }
