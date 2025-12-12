@@ -1,18 +1,15 @@
-// src/App.jsx
+// src/App.jsx — now super clean
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import Layout from './components/Layout'
 import ProtectedRoute from './components/ProtectedRoute'
 
-// Pages
 import Home from './pages/Home'
 import About from './pages/About'
 import Login from './pages/Login'
 import Blog from './pages/Blog'
 import PostDetail from './pages/PostDetail'
-import Profile from './pages/Profile/Profile'
-import ProfileDetails from './pages/Profile/ProfileDetails'
-import ProfileSettings from './pages/Profile/ProfileSettings'
+import Profile from './components/Profile'   // ← now from components
 
 export default function App() {
   return (
@@ -26,18 +23,15 @@ export default function App() {
             <Route path="blog" element={<Blog />} />
             <Route path="blog/:postId" element={<PostDetail />} />
 
-            {/* Protected Profile with Nested Routes */}
+            {/* Protected Profile — now uses Profile.jsx with its own nested routes */}
             <Route
-              path="profile"
+              path="profile/*"
               element={
                 <ProtectedRoute>
                   <Profile />
                 </ProtectedRoute>
               }
-            >
-              <Route index element={<ProfileDetails />} />
-              <Route path="settings" element={<ProfileSettings />} />
-            </Route>
+            />
           </Route>
         </Routes>
       </AuthProvider>
