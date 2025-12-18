@@ -1,7 +1,7 @@
 // src/__tests__/TodoList.test.jsx
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import TodoList from '../TodoList'
+import TodoList from './TodoList'
 
 
 describe('TodoList Component', () => {
