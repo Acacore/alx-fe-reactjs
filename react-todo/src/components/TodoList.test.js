@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import TodoList from './TodoList'
 import TodoList from './TodoList.js'
-import TodoList from  'src/__tests__/TodoList.test.js'
+
 
 describe('TodoList Component', () => {
   test('renders initial todos', () => {
